@@ -3,18 +3,13 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private People peoplePrefab;
-    [SerializeField] private Vector3 SpawnOffset;
-    [SerializeField] private Vector3 moveDistance;
+    [SerializeField] private float moveDistance = 1f;
     private Vector2 mouseStartPosition;
-    private People people;
     private void Awake()
     {
         //SpawnPeople();
     }
-    private void SpawnPeople()
-    {
-        people = Instantiate(peoplePrefab, SpawnOffset, Quaternion.identity);
-    }
+
     private void SwipeControl()
     {
         if (Input.GetMouseButtonDown(0))
@@ -29,20 +24,19 @@ public class GameController : MonoBehaviour
 
             if (swipeDistanceY > 0 && Mathf.Abs(swipeDistanceY) > Mathf.Abs(swipeDistanceX))
             {
-                Debug.Log("Lên trên");
-                peoplePrefab.transform.position -= moveDistance;
+                peoplePrefab.MovePeople(new Vector3(moveDistance, 0f, 0f));
             }
             else if (swipeDistanceY < 0 && Mathf.Abs(swipeDistanceY) > Mathf.Abs(swipeDistanceX))
             {
-                Debug.Log("Xu?ng d??i");
+                peoplePrefab.MovePeople(new Vector3(-moveDistance, 0f, 0f));
             }
             else if (swipeDistanceX < 0 && Mathf.Abs(swipeDistanceY) < Mathf.Abs(swipeDistanceX))
             {
-                Debug.Log("Sang trái");
+                peoplePrefab.MovePeople(new Vector3(0f, 0f, moveDistance));
             }
             else if (swipeDistanceX > 0 && Mathf.Abs(swipeDistanceY) < Mathf.Abs(swipeDistanceX))
             {
-                Debug.Log("Sang ph?i");
+                peoplePrefab.MovePeople(new Vector3(0f, 0f, -moveDistance));
             }
         }
     }
